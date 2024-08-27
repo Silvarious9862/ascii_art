@@ -35,6 +35,7 @@ void Bitmap::SaveAsBMP()
 int Bitmap::GetPixArrSize() { return bf.GetbfSize() - bf.GetbfOffBits(); }
 int Bitmap::GetbiHeight_public() { return bi.GetbiHeight(); };
 int Bitmap::GetbiWidth_public() { return bi.GetbiWidth(); };
+int Bitmap::GetbiBitcount_public() { return bi.GetbiBitcount(); };
 uint8_t Bitmap::GetPixelRed(int i)
 {
     rgb = pixels.GetConcretePixel(i);

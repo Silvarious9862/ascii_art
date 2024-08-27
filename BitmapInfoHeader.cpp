@@ -17,6 +17,7 @@ BitmapInfoHeader::BitmapInfoHeader()
 
 uint32_t BitmapInfoHeader::GetbiWidth() const { return this->biWidth; }
 uint32_t BitmapInfoHeader::GetbiHeight() const { return this->biHeight; }
+uint16_t BitmapInfoHeader::GetbiBitcount() const { return this->biBitCount; }
 void BitmapInfoHeader::SetbiBitCount(int bitCount) { biBitCount = bitCount; }
 
 std::ostream& operator<< (std::ostream& outstream, const BitmapInfoHeader& bi)

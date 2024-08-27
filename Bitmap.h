@@ -26,6 +26,7 @@ public:
     int GetPixArrSize();
     int GetbiHeight_public();
     int GetbiWidth_public();
+    int GetbiBitcount_public();
     uint8_t GetPixelRed(int i);
     uint8_t GetPixelGreen(int i);
     uint8_t GetPixelBlue(int i);

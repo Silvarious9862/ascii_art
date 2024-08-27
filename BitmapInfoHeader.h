@@ -16,6 +16,7 @@ public:
     BitmapInfoHeader();
     uint32_t GetbiWidth() const;
     uint32_t GetbiHeight() const;
+    uint16_t GetbiBitcount() const;
     void SetbiBitCount(int bitCount = 24);
     friend std::ostream& operator<< (std::ostream& outstream, const BitmapInfoHeader& bi);
     friend std::istream& operator>> (std::istream& instream, BitmapInfoHeader& bi);
