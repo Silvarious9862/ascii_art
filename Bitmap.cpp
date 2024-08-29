@@ -53,22 +53,23 @@ uint8_t Bitmap::GetPixelBlue(int i)
 }
 
 
-void Bitmap::ReadBMP(const char* filename)
+bool Bitmap::ReadBMP(const char* filename)
 {
     this->filename = filename;
     std::fstream imagein(this->filename, std::ios_base::in | std::ios_base::binary);
     try {
-        if (!imagein.is_open()) throw "Cannot open to read file";
+        if (!imagein.is_open()) throw "\x1B[31mCannot open to read file\033[0m\t\t";
         imagein >> bf;
-        if (!this->bf.CheckBM()) throw "File is not a BMP or corrupted";
+        if (!this->bf.CheckBM()) throw "\x1B[31mFile is not a BMP or corrupted\033[0m\t\t";
         pixels.SetArraySize(GetPixArrSize());
         imagein >> bi >> pixels;
-        if (imagein.eofbit) throw "Readed successfully";
         imagein.close();
     }
     catch (char const* errorline)
     {
         std::cout << errorline << std::endl;
         imageout.close();
+        return false;
     }
+    return true;
 }

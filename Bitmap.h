@@ -30,6 +30,6 @@ public:
     uint8_t GetPixelRed(int i);
     uint8_t GetPixelGreen(int i);
     uint8_t GetPixelBlue(int i);
-    void ReadBMP(const char* filename);
+    bool ReadBMP(const char* filename);
 };
 
