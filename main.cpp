@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class BitmapFileHeader;
 class BitmapInfoHeader;
@@ -17,6 +18,7 @@ class Bitmap;
 void PrintMatrix_skip10(std::vector<std::vector <double>> const& matrix);
 void PrintMatrixAvg(std::vector<std::vector <double>> const& matrix);
 void PrintMatrixAscii(std::vector<std::vector <char>> const& matrix);
+void PrintMatrixAsciiToFile(std::vector<std::vector <char>> const& matrix);
 
 
 void PrintMatrix_skip10(std::vector<std::vector <double>> const& matrix)
@@ -50,27 +52,41 @@ void PrintMatrixAscii(std::vector<std::vector <char>> const& matrix)
     int row_number = 1;
     for (int i = 0; i < matrix.size(); ) {
         for (int j = 0; j < matrix[i].size(); ) {
-            std::cout << std::setw(2) << matrix[i][j] << " ";
+            std::cout << std::setw(2) << matrix[i][j];
             j++;
         }
-        std::cout << " R" << row_number << std::endl;
+        std::cout << " R" << row_number << "\n";
         row_number++; i++;
     }
 };
+
+//void PrintMatrixAsciiToFile(std::vector<std::vector <char>> const& matrix)
+//{
+//    std::ofstream file;
+//
+//    for (int i = 0; i < matrix.size(); ) {
+//        for (int j = 0; j < matrix[i].size(); ) {
+//            std::cout << std::setw(2) << matrix[i][j] << " ";
+//            j++;
+//        }
+//        std::cout << << "\n";
+//        i++;
+//    }
+//}
 
 int main()
 {
     std::cout << "START" << std::endl;
     Bitmap image;
 
-    image.ReadBMP("samples/in.bmp");
+    image.ReadBMP("samples/normal3.bmp");
     int bitcount = image.GetbiBitcount_public();
     if (bitcount != 24) std::cout << "IT'S NOT A 24-bit IMAGE!\n";
 
     const int width = image.GetbiWidth_public(), height = image.GetbiHeight_public();
     uint8_t red, green, blue;
     double lightness;
-    std::vector<std::vector<double>> matrix(width, std::vector<double>(height, 0));
+    std::vector<std::vector<double>> matrix(height, std::vector<double>(width, 0));
 
     // ------------- считаем все €ркости -----------
     for (int row = matrix.size() - 1, k = 0; row >= 0; row--)
@@ -145,6 +161,7 @@ int main()
     }
 
     PrintMatrixAscii(matrix_ascii);
+    //PrintMatrixAsciiToFile(matrix_ascii);
 
     std::cout << "EXIT" << std::endl;
     return 0;
