@@ -42,7 +42,7 @@ void PrintMatrixAvg(std::vector<std::vector <double>> const& matrix)
             std::cout << std::setw(3) << std::setprecision(2) << matrix[i][j] << " ";
             j++;
         }
-        std::cout << " R" << row_number << std::endl;
+        std::cout << "\t\x1B[31mR\033[0m" << row_number << std::endl;
         row_number++; i++;
     }
 };
@@ -55,7 +55,8 @@ void PrintMatrixAscii(std::vector<std::vector <char>> const& matrix)
             std::cout << std::setw(2) << matrix[i][j];
             j++;
         }
-        std::cout << " R" << row_number << "\n";
+        //std::cout << "\t\x1B[36mR\033[0m" << row_number << "\n";
+        std::printf("\t\x1B[36mR%d\033[0m\n", row_number);
         row_number++; i++;
     }
 };
@@ -66,7 +67,7 @@ int main()
     Bitmap image;
 
     try {
-        if (!image.ReadBMP("samples/in4.bmp")) throw "\x1B[33mCritical error\033[0m\t\t";
+        if (!image.ReadBMP("samples/normal7.bmp")) throw "\x1B[33mCritical error\033[0m\t\t";
         
         int bitcount = image.GetbiBitcount_public();
         if (bitcount != 24) throw "\x1B[31mIT'S NOT A 24-bit IMAGE!\033[0m\t\t\n\x1B[33mCritical error\033[0m\t\t";
