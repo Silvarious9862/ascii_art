@@ -4,19 +4,23 @@
 #include <iostream>
 #include <vector>
 
-class PixArray
+class PixMap
 {
-private:
-    std::vector<RGBtriple> pixelArray;
-
 public:
 
-    void SetArraySize(int i);
+    void SetSize(int width, int height);
     void SetMonoArray(RGBtriple triple);
     void SetConcretePixel(int i, RGBtriple triple);
     void SetConcretePixel(int i, char blue, char green, char red);
     RGBtriple GetConcretePixel(int i);
-    friend std::ostream& operator<< (std::ostream& outstream, PixArray& pixels);
-    friend std::istream& operator>> (std::istream& instream, PixArray& pixels);
+    const RGBtriple& GetPixel(int i, int j);
+
+    friend std::ostream& operator<< (std::ostream& outstream, PixMap& pixels);
+    friend std::istream& operator>> (std::istream& instream, PixMap& pixels);
+
+private:
+    std::vector<RGBtriple> pixelArray;
+    int m_rowCount;
+    int m_colCount;
 };
 

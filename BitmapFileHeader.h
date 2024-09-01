@@ -8,7 +8,7 @@ class BitmapFileHeader;
 class BitmapInfoHeader;
 class Pallette;
 class RGBtriple;
-class PixArray;
+class PixMap;
 class Bitmap;
 
 class BitmapFileHeader

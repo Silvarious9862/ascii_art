@@ -5,12 +5,12 @@
 class BitmapInfoHeader
 {
 private:
-    uint32_t biSize;
-    uint32_t biWidth, biHeight;
-    uint16_t biPlanes, biBitCount;
-    uint32_t biCompression, biSizeImage;
-    uint32_t biXPelsPerMeter, biYPelsPerMeter;
-    uint32_t biClrUsed, biClrImportant;
+    uint32_t biSize{};
+    uint32_t biWidth{}, biHeight{};
+    uint16_t biPlanes{}, biBitCount{};
+    uint32_t biCompression{}, biSizeImage{};
+    uint32_t biXPelsPerMeter{}, biYPelsPerMeter{};
+    uint32_t biClrUsed{}, biClrImportant{};
 
 public:
     BitmapInfoHeader();

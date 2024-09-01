@@ -12,7 +12,7 @@ class BitmapFileHeader;
 class BitmapInfoHeader;
 class Pallette;
 class RGBtriple;
-class PixArray;
+class PixMap;
 class Bitmap;
 
 
@@ -67,31 +67,42 @@ int main()
     Bitmap image;
 
     try {
-        if (!image.ReadBMP("samples/normal7.bmp")) throw "\x1B[33mCritical error\033[0m\t\t";
+        if (!image.ReadBMP("samples/normal7.bmp")) throw std::exception("\x1B[33mCritical error\033[0m\t\t");
         
-        int bitcount = image.GetbiBitcount_public();
-        if (bitcount != 24) throw "\x1B[31mIT'S NOT A 24-bit IMAGE!\033[0m\t\t\n\x1B[33mCritical error\033[0m\t\t";
+        const auto& bitmapInfo = image.GetBitmapInfo();
+        if (bitmapInfo.GetbiBitcount() != 24) {
+            throw "\x1B[31mIT'S NOT A 24-bit IMAGE!\033[0m\t\t\n\x1B[33mCritical error\033[0m\t\t";
+        }
 
-        const int width = image.GetbiWidth_public(), height = image.GetbiHeight_public();
-        uint8_t red, green, blue;
-        double lightness;
-        std::vector<std::vector<double>> matrix(height, std::vector<double>(width, 0));
 
         // ------------- считаем все €ркости -----------
-        for (int row = matrix.size() - 1, k = 0; row >= 0; row--)
+        std::vector<std::vector<double>> matrix(bitmapInfo.GetbiHeight(), std::vector<double>(bitmapInfo.GetbiWidth(), 0));
         {
-            for (int col = 0; col < matrix[row].size(); col++)
+            for (int row = 0; row < matrix.size(); ++row)
             {
-                red = image.GetPixelRed(k);
-                green = image.GetPixelGreen(k);
-                blue = image.GetPixelBlue(k);
-                lightness = FindPerceivedLightness(red, green, blue);
-                matrix.at(row).at(col) = lightness;
-                k++;
+                for (int col = 0; col < matrix[row].size(); col++)
+                {
+                    const auto& pixel = image.GetPixel(row, col);
+                    const auto lightness = FindPerceivedLightness(pixel.GetRgbRed(), 
+                                                                  pixel.GetRgbGreen(), 
+                                                                  pixel.GetRgbBlue());
+                    matrix.at(row).at(col) = lightness;
+                }
             }
         }
         // PrintMatrix_skip10(matrix);
 
+
+        // MatrixIterator mi(width, height); // calls reset inside
+        // mi.reset(); // resets current position
+        // mi.isDone(); // true - can move to the next item, otherwise - false
+        // auto currPos = mi.currentPosition(); // return current position
+        // auto newCurrPos = mi.next(); // can return currentPosition
+        // auto xInfo = currPos.getX();
+        // for (auto i = xInfo.begin(); i < xInfo.end(); ++i) // xInfo usage
+
+        // auto el = seits.getElList()
+        // el.getParams();
 
 #define PRECISION 3
     // ------------ считаем средние €ркости по квадратам -------------
@@ -124,7 +135,6 @@ int main()
 
          // ---------------- заменить €ркость на ascii ----------
         std::string ascii_string = " `.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@";
-        std::vector<char> ascii_symbols(ascii_string.begin(), ascii_string.end());
         std::vector<double> ascii_volume = { 0, 0.0751, 0.0829, 0.0848, 0.1227, 0.1403, 0.1559, 0.185, 0.2183, 0.2417,
             0.2571, 0.2852, 0.2902, 0.2919, 0.3099, 0.3192, 0.3232, 0.3294, 0.3384, 0.3609, 0.3619, 0.3667, 0.3737, 0.3747,
             0.3838, 0.3921, 0.396, 0.3984, 0.3993, 0.4075, 0.4091, 0.4101, 0.42, 0.423, 0.4247, 0.4274, 0.4293, 0.4328, 0.4382,
@@ -143,17 +153,29 @@ int main()
             {
                 current_pixel = matrix_avg.at(row).at(col) / 100;
                 while (current_pixel > ascii_volume[pos]) pos++;
-                row_one_ascii.push_back(ascii_symbols[pos]);
+                row_one_ascii.emplace_back(ascii_string[pos]);
             }
             row_one_ascii.shrink_to_fit();
-            matrix_ascii.push_back(row_one_ascii);
+            matrix_ascii.emplace_back(row_one_ascii);
         }
 
         PrintMatrixAscii(matrix_ascii);
     }
-    catch (const char* errtext)
+    catch (std::out_of_range& e) 
     {
-        std::cerr << errtext << "\n";
+        std::cerr << "out_of_range: " << e.what() << '\n';
+    }
+    catch (std::exception& errtext)
+    {
+        std::cerr << errtext.what() << "\n";
+    } 
+    catch (const char* text) 
+    {
+        std::cerr << text << '\n';
+    }
+    catch (...) 
+    {
+        std::cerr << "unknown exception\n";
     }
 
     std::cout << "EXIT" << std::endl;

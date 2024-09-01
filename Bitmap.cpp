@@ -3,7 +3,7 @@
 Bitmap::Bitmap(const char* filename)
 {
     bf.SetbfSize(bi);
-    pixels.SetArraySize(bi.GetbiHeight() * bi.GetbiWidth());
+    pixels.SetSize(bi.GetbiWidth(), bi.GetbiHeight());
     this->filename = filename;
 }
 
@@ -33,36 +33,28 @@ void Bitmap::SaveAsBMP()
 }
 
 int Bitmap::GetPixArrSize() { return bf.GetbfSize() - bf.GetbfOffBits(); }
-int Bitmap::GetbiHeight_public() { return bi.GetbiHeight(); };
+int Bitmap::GetHeight() { return bi.GetbiHeight(); };
 int Bitmap::GetbiWidth_public() { return bi.GetbiWidth(); };
 int Bitmap::GetbiBitcount_public() { return bi.GetbiBitcount(); };
-uint8_t Bitmap::GetPixelRed(int i)
-{
-    rgb = pixels.GetConcretePixel(i);
-    return rgb.GetRgbRed();
-}
-uint8_t Bitmap::GetPixelGreen(int i)
-{
-    rgb = pixels.GetConcretePixel(i);
-    return rgb.GetRgbGreen();
-}
-uint8_t Bitmap::GetPixelBlue(int i)
-{
-    rgb = pixels.GetConcretePixel(i);
-    return rgb.GetRgbBlue();
-}
-
 
 bool Bitmap::ReadBMP(const char* filename)
 {
     this->filename = filename;
     std::fstream imagein(this->filename, std::ios_base::in | std::ios_base::binary);
     try {
-        if (!imagein.is_open()) throw "\x1B[31mCannot open to read file\033[0m\t\t";
+        if (!imagein.is_open()) {
+            throw "\x1B[31mCannot open to read file\033[0m\t\t";
+        }
+        
         imagein >> bf;
-        if (!this->bf.CheckBM()) throw "\x1B[31mFile is not a BMP or corrupted\033[0m\t\t";
-        pixels.SetArraySize(GetPixArrSize());
-        imagein >> bi >> pixels;
+        if (!this->bf.CheckBM()) {
+            throw "\x1B[31mFile is not a BMP or corrupted\033[0m\t\t";
+        }
+
+        imagein >> bi; 
+        pixels.SetSize(bi.GetbiWidth(), bi.GetbiHeight());
+        imagein >> pixels;
+
         imagein.close();
     }
     catch (char const* errorline)

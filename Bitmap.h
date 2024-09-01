@@ -14,7 +14,7 @@ private:
     BitmapFileHeader bf;
     Pallette pal;
     RGBtriple rgb;
-    PixArray pixels;
+    PixMap pixels;
     std::fstream imageout;
     std::string filename;
 
@@ -24,12 +24,16 @@ public:
     void SetMonoBitmap(char red, char green, char blue);
     void SaveAsBMP();
     int GetPixArrSize();
-    int GetbiHeight_public();
+    const BitmapInfoHeader& GetBitmapInfo() const { return bi; }
+    int GetHeight();
     int GetbiWidth_public();
     int GetbiBitcount_public();
-    uint8_t GetPixelRed(int i);
-    uint8_t GetPixelGreen(int i);
-    uint8_t GetPixelBlue(int i);
+    
+    const RGBtriple& GetPixel(int row, int col) 
+    { 
+        return pixels.GetPixel(row, col); 
+    }
+
     bool ReadBMP(const char* filename);
 };
 
