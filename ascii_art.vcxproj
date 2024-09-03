@@ -128,6 +128,7 @@
     <ClCompile Include="main.cpp">
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
     </ClCompile>
+    <ClCompile Include="MatrixIterator.cpp" />
     <ClCompile Include="Pallette.cpp" />
     <ClCompile Include="PixArray.cpp" />
     <ClCompile Include="RGBtriple.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="BitmapFileHeader.h" />
     <ClInclude Include="BitmapInfoHeader.h" />
     <ClInclude Include="Luminance.h" />
+    <ClInclude Include="MatrixIterator.h" />
     <ClInclude Include="Pallette.h" />
     <ClInclude Include="PixArray.h" />
     <ClInclude Include="RGBtriple.h" />

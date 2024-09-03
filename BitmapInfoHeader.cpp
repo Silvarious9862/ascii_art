@@ -2,23 +2,23 @@
 
 BitmapInfoHeader::BitmapInfoHeader()
 {
-    biSize = 40;
-    biWidth = 200;
-    biHeight = 200;
-    biPlanes = 0x1;   // ploskost kartinki always 1   
-    biBitCount = 0x18;  // default bitcount = 24   
-    biCompression = 0x0;   // default compress = 0   
-    biSizeImage = 0x0;   // no compression = always 0
-    biXPelsPerMeter = 0x0;
-    biYPelsPerMeter = 0x0;
-    biClrUsed = 0x0;
-    biClrImportant = 0x0;
+    biSize          = 40;
+    biWidth         = 200;
+    biHeight        = 200;
+    biPlanes        = 0x1;  // planes of image always 1   
+    biBitCount      = 0x18; // default bitcount = 24   
+    biCompression   = 0x0;  // default compress = 0   
+    biSizeImage     = 0x0;  // no compression = always 0
+    biXPelsPerMeter = 0x0;  // always 0
+    biYPelsPerMeter = 0x0;  // always 0
+    biClrUsed       = 0x0;  // always 0
+    biClrImportant  = 0x0;  // always 0
 }
 
-uint32_t BitmapInfoHeader::GetbiWidth() const { return this->biWidth; }
-uint32_t BitmapInfoHeader::GetbiHeight() const { return this->biHeight; }
-uint16_t BitmapInfoHeader::GetbiBitcount() const { return this->biBitCount; }
-void BitmapInfoHeader::SetbiBitCount(int bitCount) { biBitCount = bitCount; }
+uint32_t BitmapInfoHeader::GetWidth() const { return this->biWidth; }
+uint32_t BitmapInfoHeader::GetHeight() const { return this->biHeight; }
+uint16_t BitmapInfoHeader::GetBitcount() const { return this->biBitCount; }
+void BitmapInfoHeader::SetBitCount(int bitCount) { biBitCount = bitCount; }
 
 std::ostream& operator<< (std::ostream& outstream, const BitmapInfoHeader& bi)
 {

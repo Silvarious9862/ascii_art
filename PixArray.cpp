@@ -8,7 +8,7 @@ void PixMap::SetSize(int width, int height)
     pixelArray.resize(static_cast<size_t>(width) * height, rgb_null);
     m_colCount = width;
     m_rowCount = height;
-    std::cout << std::format("m_colCount: {}; m_rowCount: {}\n", m_colCount, m_rowCount);
+    //std::cout << std::format("m_colCount: {}; m_rowCount: {}\n", m_colCount, m_rowCount);
 }
 
 void PixMap::SetMonoArray(RGBtriple triple)
@@ -27,7 +27,7 @@ void PixMap::SetConcretePixel(int i, RGBtriple triple)
 
 void PixMap::SetConcretePixel(int i, char blue, char green, char red)
 {
-    pixelArray[i].SetRGBtriple(red, green, blue);
+    pixelArray[i].SetRGB(red, green, blue);
     RGBtriple triple = GetConcretePixel(i);
     pixelArray.at(i) = triple;
 }
@@ -63,11 +63,11 @@ std::istream& operator>> (std::istream& instream, PixMap& pixels)
     for (int i = 0; i < pixels.pixelArray.size(); i++)
     {
         instream.read((char*)&tmpblue, sizeof(tmpblue));
-        pixels.pixelArray[i].SetRGBblue(tmpblue);
+        pixels.pixelArray[i].SetBlue(tmpblue);
         instream.read((char*)&tmpgreen, sizeof(tmpgreen));
-        pixels.pixelArray[i].SetRGBgreen(tmpgreen);
+        pixels.pixelArray[i].SetGreen(tmpgreen);
         instream.read((char*)&tmpred, sizeof(tmpred));
-        pixels.pixelArray[i].SetRGBred(tmpred);
+        pixels.pixelArray[i].SetRed(tmpred);
     }
     return instream;
 }

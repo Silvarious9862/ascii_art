@@ -3,14 +3,14 @@
 Bitmap::Bitmap(const char* filename)
 {
     bf.SetbfSize(bi);
-    pixels.SetSize(bi.GetbiWidth(), bi.GetbiHeight());
+    pixels.SetSize(bi.GetWidth(), bi.GetHeight());
     this->filename = filename;
 }
 
 void Bitmap::SetMonoBitmap(char red, char green, char blue)
 {
-    bi.SetbiBitCount(24);
-    rgb.SetRGBtriple(red, green, blue);
+    bi.SetBitCount(24);
+    rgb.SetRGB(red, green, blue);
     pixels.SetMonoArray(rgb);
 }
 
@@ -33,11 +33,8 @@ void Bitmap::SaveAsBMP()
 }
 
 int Bitmap::GetPixArrSize() { return bf.GetbfSize() - bf.GetbfOffBits(); }
-int Bitmap::GetHeight() { return bi.GetbiHeight(); };
-int Bitmap::GetbiWidth_public() { return bi.GetbiWidth(); };
-int Bitmap::GetbiBitcount_public() { return bi.GetbiBitcount(); };
 
-bool Bitmap::ReadBMP(const char* filename)
+bool Bitmap::ReadBMP(std::string filename)
 {
     this->filename = filename;
     std::fstream imagein(this->filename, std::ios_base::in | std::ios_base::binary);
@@ -52,7 +49,7 @@ bool Bitmap::ReadBMP(const char* filename)
         }
 
         imagein >> bi; 
-        pixels.SetSize(bi.GetbiWidth(), bi.GetbiHeight());
+        pixels.SetSize(bi.GetWidth(), bi.GetHeight());
         imagein >> pixels;
 
         imagein.close();

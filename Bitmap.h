@@ -25,15 +25,12 @@ public:
     void SaveAsBMP();
     int GetPixArrSize();
     const BitmapInfoHeader& GetBitmapInfo() const { return bi; }
-    int GetHeight();
-    int GetbiWidth_public();
-    int GetbiBitcount_public();
     
     const RGBtriple& GetPixel(int row, int col) 
     { 
         return pixels.GetPixel(row, col); 
     }
 
-    bool ReadBMP(const char* filename);
+    bool ReadBMP(std::string filename);
 };
 

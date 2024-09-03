@@ -12,7 +12,7 @@ BitmapFileHeader::BitmapFileHeader()
 
 void BitmapFileHeader::SetbfSize(BitmapInfoHeader& bi)
 {
-    bfSize = bfOffBits + sizeof(RGBtriple) * bi.GetbiHeight() * bi.GetbiWidth();
+    bfSize = bfOffBits + sizeof(RGBtriple) * bi.GetHeight() * bi.GetWidth();
 }
 
 bool BitmapFileHeader::CheckBM()

@@ -11,13 +11,13 @@ private:
 
 public:
     RGBtriple();
-    void SetRGBtriple(uint8_t red, uint8_t green, uint8_t blue);
-    void SetRGBblue(uint8_t blue);
-    void SetRGBgreen(uint8_t green);
-    void SetRGBred(uint8_t red);
-    uint8_t GetRgbBlue() const;
-    uint8_t GetRgbGreen() const;
-    uint8_t GetRgbRed() const;
+    void SetRGB(uint8_t red, uint8_t green, uint8_t blue);
+    void SetBlue(uint8_t blue);
+    void SetGreen(uint8_t green);
+    void SetRed(uint8_t red);
+    uint8_t GetBlue() const;
+    uint8_t GetGreen() const;
+    uint8_t GetRed() const;
     friend std::ostream& operator<< (std::ostream& outstream, const RGBtriple& rgb);
     friend std::istream& operator>> (std::istream& instream, const RGBtriple& rgb);
 };
