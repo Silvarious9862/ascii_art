@@ -1,10 +1,10 @@
 #include "Bitmap.h"
 
-Bitmap::Bitmap(const char* filename)
+Bitmap::Bitmap(const char*path)
 {
     bf.SetbfSize(bi);
     pixels.SetSize(bi.GetWidth(), bi.GetHeight());
-    this->filename = filename;
+    this->path = path;
 }
 
 void Bitmap::SetMonoBitmap(char red, char green, char blue)
@@ -32,12 +32,10 @@ void Bitmap::SaveAsBMP()
     }
 }
 
-int Bitmap::GetPixArrSize() { return bf.GetbfSize() - bf.GetbfOffBits(); }
-
-bool Bitmap::ReadBMP(std::string filename)
+bool Bitmap::ReadBMP(std::string path)
 {
-    this->filename = filename;
-    std::fstream imagein(this->filename, std::ios_base::in | std::ios_base::binary);
+    this->path = path;
+    std::fstream imagein(this->path, std::ios_base::in | std::ios_base::binary);
     try {
         if (!imagein.is_open()) {
             throw "\x1B[31mCannot open to read file\033[0m\t\t";

@@ -9,6 +9,18 @@
 
 class Bitmap
 {
+public:
+
+    Bitmap(const char*path = "tmp.bmp");           
+    void SetMonoBitmap(char red, char green, char blue);    // create a bitmap with one color fill
+    void SaveAsBMP();       // save bitmap locally
+    const BitmapInfoHeader& GetBitmapInfo() const { return bi; }
+    const RGBtriple& GetPixel(int row, int col) { 
+        return pixels.GetPixel(row, col); 
+    }
+
+    bool ReadBMP(std::string path); // read bmp from path 
+    
 private:
     BitmapInfoHeader bi;
     BitmapFileHeader bf;
@@ -16,21 +28,7 @@ private:
     RGBtriple rgb;
     PixMap pixels;
     std::fstream imageout;
-    std::string filename;
+    std::string path;
 
-public:
-
-    Bitmap(const char* filename = "tmp.bmp");
-    void SetMonoBitmap(char red, char green, char blue);
-    void SaveAsBMP();
-    int GetPixArrSize();
-    const BitmapInfoHeader& GetBitmapInfo() const { return bi; }
-    
-    const RGBtriple& GetPixel(int row, int col) 
-    { 
-        return pixels.GetPixel(row, col); 
-    }
-
-    bool ReadBMP(std::string filename);
 };
 

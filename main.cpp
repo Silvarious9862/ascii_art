@@ -17,40 +17,10 @@ class PixMap;
 class Bitmap;
 
 
-void PrintMatrix_skip10(std::vector<std::vector <double>> const& matrix);
-void PrintMatrixAvg(std::vector<std::vector <double>> const& matrix);
 void PrintMatrixAscii(std::vector<std::vector <char>> const& matrix);
-
 std::vector<std::vector<double>> CreateLightnessMatrix(Bitmap& image, std::vector<std::vector<double>>& matrix);
 std::vector<std::vector<double>> ChooseQuality(std::vector<std::vector<double>>& matrix_in, std::vector<std::vector<double>>& matrix_out, int quality);
-std::vector<std::vector<char>>LightnessToAscii(std::vector<std::vector<double>>&matrix);
-
-
-void PrintMatrix_skip10(std::vector<std::vector <double>> const& matrix)
-{
-    int row_number = 1;
-    for (int i = 0; i < matrix.size(); ) {
-        for (int j = 0; j < matrix[i].size(); ) {
-            std::cout << std::setw(3) << std::setprecision(2) << matrix[i][j] << " ";
-            j += 10;
-        }
-        std::cout << " R" << row_number << std::endl;
-        row_number++; i += 10;
-    }
-};
-
-void PrintMatrixAvg(std::vector<std::vector <double>> const& matrix)
-{
-    int row_number = 1;
-    for (int i = 0; i < matrix.size(); ) {
-        for (int j = 0; j < matrix[i].size(); ) {
-            std::cout << std::setw(3) << std::setprecision(2) << matrix[i][j] << " ";
-            j++;
-        }
-        std::cout << "\t\x1B[31mR\033[0m" << row_number << std::endl;
-        row_number++; i++;
-    }
-};
+std::vector<std::vector<char>>   LightnessToAscii(std::vector<std::vector<double>>& matrix);
 
 void PrintMatrixAscii(std::vector<std::vector <char>> const& matrix)
 {
@@ -93,7 +63,7 @@ std::vector<std::vector<double>> ChooseQuality(std::vector<std::vector<double>>&
     double avg_lightness = 0;
 
     for (MatrixIterator mi(matrix_in, quality); !mi.CheckFullDone(); ) {
-        avg_lightness = mi.CountAvg(matrix_in);
+        avg_lightness = mi.CountAvg();
         row_one.emplace_back(avg_lightness);
 
         mi++;
@@ -154,7 +124,7 @@ int main()
             throw std::exception("\x1B[33mCritical error\033[0m\t\t");
         }
 
-        const auto& bitmapInfo = image.GetBitmapInfo();
+        const auto& bitmapInfo = image.GetBitmapInfo(); // check for 24bits bmp, if not - reject
         if (bitmapInfo.GetBitcount() != 24) {
             throw std::exception("\x1B[31mIT'S NOT A 24-bit IMAGE!\033[0m\t\t\n\x1B[33mCritical error\033[0m\t\t");
         }
@@ -167,7 +137,7 @@ int main()
 
         // ------------- average lightness by squares -------------
         std::vector<std::vector<double>> matrix_avg(0, std::vector<double>(0, 0));
-        matrix_avg = ChooseQuality(matrix, matrix_avg, 0);
+        matrix_avg = ChooseQuality(matrix, matrix_avg);
 
          // ---------------- Change lightness to ascii ----------
         std::vector<std::vector<char>> matrix_ascii(0, std::vector<char>(0, 0));
